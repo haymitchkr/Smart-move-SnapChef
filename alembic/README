@@ -1,0 +1,10 @@
+Generic single-database configuration.
+
+Alembic используется для управления миграциями схемы PostgreSQL.
+
+Основные команды:
+- alembic revision --autogenerate -m "comment"  # создать миграцию
+- alembic upgrade head  # применить все миграции
+- alembic downgrade -1  # откатить последнюю миграцию
+
+В проекте используется переменная окружения DATABASE_URL.
