@@ -29,8 +29,13 @@ async def startup():
 
 @app.post('/webhook')
 async def telegram_webhook(request: Request, background_tasks: BackgroundTasks):
+    print(">>> /webhook endpoint called")
+    logger.info(">>> /webhook endpoint called")
     update = await request.json()
     logger.info(f'Update: {update}')
-    # Если пользователь в режиме добавления ингредиентов
-    background_tasks.add_task(handle_update, update)
+    if 'callback_query' in update:
+        from telegram_service import handle_callback_query
+        background_tasks.add_task(handle_callback_query, update['callback_query'])
+    else:
+        background_tasks.add_task(handle_update, update)
     return {"ok": True} 

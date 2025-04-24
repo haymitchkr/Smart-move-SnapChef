@@ -24,7 +24,6 @@ class UserPreferences(Base):
     __tablename__ = 'user_preferences'
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'), unique=True, nullable=False)
-    difficulty = Column(String, default='Простые')
-    calories_enabled = Column(Boolean, default=False)
-    healthy_mode = Column(Boolean, default=False)
+    healthy_profile = Column(Boolean, default=False)
+    preferred_cuisine = Column(String, default='Любая')
     user = relationship('User', back_populates='preferences') 

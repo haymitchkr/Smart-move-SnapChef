@@ -9,6 +9,14 @@ async def add_recipe_history(session: AsyncSession, user_id: int, ingredients: s
     await session.refresh(entry)
     return entry
 
+async def save_user_recipe(session: AsyncSession, user_id: int, recipe_text: str, ingredients):
+    # ingredients может быть списком или строкой
+    if isinstance(ingredients, list):
+        ingredients_str = ", ".join(ingredients)
+    else:
+        ingredients_str = str(ingredients)
+    await add_recipe_history(session, user_id, ingredients_str, recipe_text)
+
 async def get_user_history(session: AsyncSession, user_id: int, limit: int = 10):
     result = await session.execute(
         select(RecipeHistory).where(RecipeHistory.user_id == user_id).order_by(RecipeHistory.created_at.desc()).limit(limit)
